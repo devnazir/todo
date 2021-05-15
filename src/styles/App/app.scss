@@ -1,9 +1,9 @@
-@use '../modules/_header';
-@use '../modules/_boxlist';
-@use '../modules/_list';
-@use '../modules/_modals';
-
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500&display=swap");
+@import '../modules/_header.scss';
+@import '../modules/_boxlist.scss';
+@import '../modules/_list.scss';
+@import '../modules/_modals.scss';
+
 
 * {
   margin: 0;
