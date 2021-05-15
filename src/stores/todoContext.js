@@ -44,18 +44,13 @@ function Todo() {
     })
   }
 
-  const updateIncompleted = (prevID, newText) => {
+  const updateIncompleted = (prevID, newValue) => {
     const id = parseInt(prevID)
-    const newValue = todo.incompleted.filter(list => list.id === id)[0]
-    newValue.text = newText
-
     setTodo({
       ...todo,
-      incompleted: todo.incompleted.map(list => list.id === id ? newValue : list)
+      incompleted: todo.incompleted.map(list => list.id === id ? { ...list, ...newValue } : list)
     })
-
-    setHiddenModalTodo(true)
-  } 
+  }
 
   const event = {
     addCompleted,

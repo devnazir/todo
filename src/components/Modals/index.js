@@ -45,23 +45,27 @@ function ModalAdd() {
 
 function ModalUpdate() {
   const { todo, event: { setHiddenModalTodo, updateIncompleted } } = useTodo()
-  const [prevValue, setPrevValue] = useState('')
-  const [newValue, setNewValue] = useState('')
+  const [prevValueID, setPrevValueID] = useState('')
+  const [newValue, setNewValue] = useState({
+    text: ''
+  })
 
   const handleSelectChange = (e) => {
     const value = e.target.value
-    setPrevValue(value)
+    setPrevValueID(value)
   }
 
   const handleChangeInput = (e) => {
     const newValue = e.target.value
-    setNewValue(newValue)
+    setNewValue({
+      text: newValue
+    })
   }
 
   return (
     <>
       <div className='modal__select'>
-        <select className='modal__select__value' onChange={handleSelectChange} value={prevValue}>
+        <select className='modal__select__value' onChange={handleSelectChange} value={prevValueID}>
           <option value="">--Please choose an option--</option>
           {
             todo.incompleted.map(list => {
@@ -70,9 +74,9 @@ function ModalUpdate() {
           }
         </select>
       </div>
-      {prevValue && <input placeholder='Input new value' maxLength={50} type="text" className='modals__input' onChange={handleChangeInput} />}
+      {prevValueID && <input placeholder='Input new value' maxLength={50} type="text" className='modals__input' onChange={handleChangeInput} />}
       <div className='modals__buttons'>
-        {newValue && <button className='modals__button modals__button--blue' onClick={() => updateIncompleted(prevValue, newValue)}>Update</button>}
+        {newValue && <button className='modals__button modals__button--blue' onClick={() => updateIncompleted(prevValueID, newValue)}>Update</button>}
         <button className='modals__button modals__button--red' onClick={() => setHiddenModalTodo(true)}>Cancel</button>
       </div>
     </>
