@@ -1,14 +1,13 @@
 import { useTodo } from '../../stores/todoContext'
-import '../../styles/Header/header.scss'
 import generateDate from '../../helper/generateDate'
 
 function Header() {
-  const { data, completed } = useTodo()
+  const { todo } = useTodo()
 
   return (
     <header>
       <h1>{generateDate()}</h1>
-      <span>{data.length} incomplete, {completed.length} completed</span>
+      <span>{todo.incompleted.length} incomplete, {todo.completed.length} completed</span>
     </header>
   )
 }

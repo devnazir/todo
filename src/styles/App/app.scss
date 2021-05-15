@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500&display=swap');
+@use '../modules/header';
+@use '../modules/boxlist';
+@use '../modules/list';
+@use '../modules/modals';
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500&display=swap");
 
 * {
   margin: 0;
@@ -11,9 +16,9 @@
   height: 100vh;
   padding: 1rem;
   margin: auto;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   color: #141419;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   overflow-y: scroll;
 
   .container__button {
@@ -23,13 +28,16 @@
     border-radius: 50%;
     outline: none;
     border: none;
-    background-color: #515CC6;
     color: white;
     font-size: 2em;
-    bottom: 2rem;
-    right: 2rem;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     cursor: pointer;
+  }
+
+  .container__button--add {
+    bottom: 2rem;
+    right: 2rem;
+    background-color: #515cc6;
   }
 
   @media (max-width: 475px) {

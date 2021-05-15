@@ -1,22 +1,15 @@
+import { useTodo } from '../stores/todoContext'
 import '../styles/App/app.scss'
 import Header from './Header'
 import BoxList from './BoxLists'
 import { ListIncomplete, ListCompleted } from './List'
 import Modals from './Modals'
-import { useTodo } from '../stores/todoContext'
-import { useRef } from 'react'
 
 function App() {
-  const { hiddenModalTodo, setHiddenModalTodo } = useTodo()
-  const containerRef = useRef()
-
-  const showOrHiddenModal = () => {
-    containerRef.current.style.cssText = 'position: relative'
-    setHiddenModalTodo(false)
-  } 
+  const { hiddenModalTodo, typeModalTodo, event: { openModal } } = useTodo()
 
   return (
-    <div className="container" ref={containerRef}>
+    <div className="container">
       <Header />
       <BoxList>
         <ListIncomplete />
@@ -24,8 +17,8 @@ function App() {
       <BoxList>
         <ListCompleted />
       </BoxList>
-      {!hiddenModalTodo && <Modals />}
-      <button className="container__button" onClick={showOrHiddenModal}>+</button>
+      {!hiddenModalTodo && <Modals type={typeModalTodo} />}
+      <button className="container__button container__button--add" onClick={() => openModal('add')}>+</button>
     </div>
   );
 }

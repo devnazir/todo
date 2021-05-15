@@ -1,47 +1,75 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
 const TodoContext = createContext({
-  data: [],
+  incompleted: [],
   completed: [],
-  addTodo: () => { },
-  addCompleted: () => {},
-  hiddenModalTodo: () => { },
-  setHiddenModalTodo: () => { }
 })
 
 function Todo() {
-  const [list, setList] = useState(
-    localStorage.getItem('list') ? storageTodoIncomplete() : []
+  const [todo, setTodo] = useState(
+    localStorage.getItem('todo') ? storageTODO() : {
+      incompleted: [],
+      completed: []
+    }
   )
-
-  const [completed, setCompleted] = useState(
-    localStorage.getItem('completed') ? storageTodoCompleted() : []
-  )
-
+  const [typeModalTodo, setTypeModalTodo] = useState('')
   const [hiddenModalTodo, setHiddenModalTodo] = useState(true)
 
-  useEffect(() => {
-    localStorage.setItem('completed', JSON.stringify(completed))
-    localStorage.setItem('list', JSON.stringify(list))
-  }, [list, completed])
+  const openModal = (type) => {
+    if (type === 'add') {
+      setTypeModalTodo('add')
+    } else if (type === 'update') {
+      setTypeModalTodo('update')
+    }
 
-  const addTodo = (newList) => {
-    setList([...list, newList])
+    setHiddenModalTodo(false)
+  }
+
+  useEffect(() => {
+    localStorage.setItem('todo', JSON.stringify(todo))
+  }, [todo])
+
+  const addInCompleted = (newList) => {
+    setTodo({
+      ...todo,
+      incompleted: [...todo.incompleted, newList]
+    })
     setHiddenModalTodo(true)
   }
 
   const addCompleted = (id) => {
-    setList(list.filter(data => data.id !== id))
-    setCompleted([...completed, ...list.filter(data => data.id === id)])
+    setTodo({
+      incompleted: todo.incompleted.filter(list => list.id !== id),
+      completed: [...todo.completed, ...todo.incompleted.filter(list => list.id === id)]
+    })
+  }
+
+  const updateIncompleted = (prevID, newText) => {
+    const id = parseInt(prevID)
+    const newValue = todo.incompleted.filter(list => list.id === id)[0]
+    newValue.text = newText
+
+    setTodo({
+      ...todo,
+      incompleted: todo.incompleted.map(list => list.id === id ? newValue : list)
+    })
+
+    setHiddenModalTodo(true)
+  } 
+
+  const event = {
+    addCompleted,
+    addInCompleted,
+    updateIncompleted,
+    setHiddenModalTodo,
+    openModal,
   }
 
   return {
-    data: list,
-    completed,
-    addCompleted,
-    addTodo,
+    todo,
+    event,
     hiddenModalTodo,
-    setHiddenModalTodo
+    typeModalTodo,
   }
 }
 
@@ -57,11 +85,6 @@ export const TodoProvider = ({ children }) => {
 
 export const useTodo = () => useContext(TodoContext)
 
-function storageTodoIncomplete() {
-  return JSON.parse(localStorage.getItem('list'))
+function storageTODO() {
+  return JSON.parse(localStorage.getItem('todo'))
 }
-
-function storageTodoCompleted() {
-  return JSON.parse(localStorage.getItem('completed'))
-}
-
