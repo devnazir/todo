@@ -1,5 +1,4 @@
 import { useTodo } from '../stores/todoContext'
-import '../styles/App/app.scss'
 import Header from './Header'
 import BoxList from './BoxLists'
 import { ListIncomplete, ListCompleted } from './List'
